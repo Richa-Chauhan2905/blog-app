@@ -1,8 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import router from "./routes/user.route.js";
+import userRoute from "./routes/user.route.js";
+import blogRoute from "./routes/blog.route.js";
 import fileUpload from "express-fileupload";
+import { v2 as cloudinary } from "cloudinary";
 
 const app = express();
 dotenv.config();
@@ -26,7 +28,8 @@ try {
 }
 
 // defining routes
-app.use("/api/users", router);
+app.use("/api/users", userRoute);
+app.use("/api/blogs", blogRoute);
 
 //Cloudinary
 cloudinary.config({
