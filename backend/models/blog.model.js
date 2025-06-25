@@ -6,16 +6,16 @@ const blogSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-    blogImage: {
-      public_id: {
-        type: String,
-        required: true,
-      },
-      url: {
-        type: String,
-        required: true,
-      },
+  blogImage: {
+    public_id: {
+      type: String,
+      required: true,
     },
+    url: {
+      type: String,
+      required: true,
+    },
+  },
   category: {
     type: String,
     required: true,
@@ -27,11 +27,9 @@ const blogSchema = new mongoose.Schema({
   },
   adminName: {
     type: String,
-    required: true,
   },
   adminPhoto: {
     type: String,
-    required: true,
   },
   createdBy: {
     type: mongoose.Schema.ObjectId,
@@ -39,4 +37,6 @@ const blogSchema = new mongoose.Schema({
   },
 });
 
-export const Blog = mongoose.model("Blog", blogSchema);
+const Blog = mongoose.model("Blog", blogSchema);
+
+export default Blog

@@ -5,6 +5,7 @@ import userRoute from "./routes/user.route.js";
 import blogRoute from "./routes/blog.route.js";
 import fileUpload from "express-fileupload";
 import { v2 as cloudinary } from "cloudinary";
+import cookieParser from "cookie-parser";
 
 const app = express();
 dotenv.config();
@@ -14,6 +15,7 @@ const MONOGO_URL = process.env.MONGODB_URI;
 
 //middleware
 app.use(express.json());
+app.use(cookieParser());
 app.use(fileUpload({
   useTempFiles: true,
   tempFileDir: "/tmp/"

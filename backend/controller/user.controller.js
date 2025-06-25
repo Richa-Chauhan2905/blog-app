@@ -58,6 +58,7 @@ export const register = async (req, res) => {
 
         if (newUser) {
             const token = await createTokenAndSaveCookies(newUser._id, res)
+            console.log("Signup Token: ", token)
 
             return res
                 .status(200)
@@ -71,68 +72,104 @@ export const register = async (req, res) => {
     }
 };
 
-export const login = async(req, res) => {
-    const {email, password, role} = req.body
+export const login = async (req, res) => {
+    const { email, password, role } = req.body
     try {
-        if(!email || !password || !role){
+        if (!email || !password || !role) {
             return res
-            .status(400)
-            .json({
-                message: "Please fill all the fields"
-            })
+                .status(400)
+                .json({
+                    message: "Please fill all the fields"
+                })
         }
         const user = await User.findOne({ email }).select("+password")
 
-        if(!user.password){
+        if (!user.password) {
             return res
-            .status(400)
-            .json({message: "Invalid credentials"})
+                .status(400)
+                .json({ message: "Invalid credentials" })
         }
 
         const isMatch = await bcrypt.compare(password, user.password)
-        if(!user || !isMatch){
+        if (!user || !isMatch) {
             return res
-            .status(400)
-            .json({message: "Invalid user credentials"})
+                .status(400)
+                .json({ message: "Invalid user credentials" })
         }
 
-        if(user.role !== role){
+        if (user.role !== role) {
             return res
-            .status(400)
-            .json({message: `Given role ${role} not found`})
+                .status(400)
+                .json({ message: `Given role ${role} not found` })
         }
 
         const token = await createTokenAndSaveCookies(user._id, res)
+        console.log("Login Token: ", token)
+
         res
-        .status(200)
-        .json({message: "User logged in successfully", user: {
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            role: user.role
-        }, token: token})
+            .status(200)
+            .json({
+                message: "User logged in successfully", user: {
+                    _id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    role: user.role
+                }, token: token
+            })
 
     } catch (error) {
         return res
-        .status(500)
-        .json({
-            error: "Internal Server error"
-        })
+            .status(500)
+            .json({
+                error: "Internal Server error"
+            })
     }
 }
 
-export const logout = async(req, res) => {
+export const logout = async (req, res) => {
     try {
-        res.clearCookie("jwt", {httpOnly: true})
+        res.clearCookie("jwt", { httpOnly: true })
         res
-        .status(200)
-        .json({message: "user logged out"})
+            .status(200)
+            .json({ message: "user logged out" })
     } catch (error) {
         console.log(error)
         return res
-        .status(500)
-        .json({
-            error: "Internal Server error"
-        })
+            .status(500)
+            .json({
+                error: "Internal Server error"
+            })
+    }
+}
+
+export const getMyProfile = async (req, res) => {
+    try {
+        const user = await req.user;
+        res
+            .status(200)
+            .json(user)
+    } catch (error) {
+        console.log(error)
+        return res
+            .status(500)
+            .json({
+                error: "Internal Server error"
+            })
+    }
+}
+
+export const getAdmins = async (req, res) => {
+    try {
+        const admins = await User.find({ role: "admin" })
+        console.log(admins)
+        return res
+            .status(200)
+            .json({message: "Admins", admins})
+    } catch (error) {
+        return res
+            .status(500)
+            .json({
+                error: "Internal Server error"
+            })
     }
 }
