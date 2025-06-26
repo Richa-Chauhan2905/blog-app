@@ -5,14 +5,14 @@ import jwt from 'jsonwebtoken'
 export const isAuthenticated = async (req, res, next) => {
 
     try {
-        const token = await req.cookies.jwt
-        console.log("cookie token: ", token)
+        const token = req.cookies.jwt
+        console.log("Middleware: ", token)
 
         if (!token) {
             return res
                 .status(401)
                 .json({
-                    message: "User not authenticated", token
+                    message: "User not authenticated", 
                 })
         }
 
@@ -23,7 +23,7 @@ export const isAuthenticated = async (req, res, next) => {
             return res
                 .status(404)
                 .json({
-                    message: "User not found", token
+                    message: "User not found"
                 })
         }
 

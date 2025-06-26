@@ -1,16 +1,27 @@
 import jwt from 'jsonwebtoken'
 import { User } from '../models/user.model.js'
 
-export const createTokenAndSaveCookies = async (userId, res) => {
-    const token = jwt.sign({userId}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '7d'})
+const createTokenAndSaveCookies = async (userId, res) => {
+    try {
+        const token = jwt.sign({ userId }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30d' })
 
-    res.cookie("jwt", token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "strict"
-    })
+        res.cookie("jwt", token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            path: "/"
+        })
 
-    await User.findByIdAndUpdate(userId, {token})
-    return token
+        await User.findByIdAndUpdate(userId, { token })
+        return token
+
+    } catch (error) {
+        return res
+            .status(500)
+            .json({
+                error: "Internal Server error"
+            })
+    }
 }
 
+export default createTokenAndSaveCookies
