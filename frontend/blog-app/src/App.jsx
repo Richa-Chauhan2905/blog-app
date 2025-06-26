@@ -7,14 +7,15 @@ import Blogs from '../src/pages/Blogs'
 import About from '../src/pages/About'
 import Contact from '../src/pages/Contact'
 import Login from '../src/pages/Login'
-import Signup from '../src/pages/Signup'
+import Register from './pages/Register'
 import Dashboard from '../src/pages/Dashboard'
 import Creator from '../src/pages/Creator'
 import { useAuth } from './context/AuthProvider'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
   const location = useLocation()
-  const hideNavbarFooter = ["/dashboard", "/login", "/signup"].includes(location.pathname)
+  const hideNavbarFooter = ["/dashboard", "/login", "/register"].includes(location.pathname)
 
   const {blogs} = useAuth()
   console.log(blogs)
@@ -29,10 +30,11 @@ function App() {
         <Route exact path="/contact" element={<Contact />} />
         <Route exact path="/creators" element={<Creator />} />
         <Route exact path="/login" element={<Login />} />
-        <Route exact path="/signup" element={<Signup />} />
+        <Route exact path="/register" element={<Register />} />
         <Route exact path="/dashboard" element={<Dashboard />} />
       </Routes>
-      {/* {!hideNavbarFooter && <Footer />} */}
+      <Toaster />
+      {!hideNavbarFooter && <Footer />}
     </div>
   )
 }
