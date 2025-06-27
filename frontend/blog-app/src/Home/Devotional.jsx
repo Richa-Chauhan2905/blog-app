@@ -20,7 +20,7 @@ function Devotional() {
           {devotionalBlogs && devotionalBlogs.length > 0 ? (
             devotionalBlogs.map((blog, index) => (
               <Link
-                to={`/blog/${blog._id}`}
+                to={`/blogs/single-blog/${blog._id}`}
                 key={index}
                 className="relative rounded-lg overflow-hidden shadow-md transform hover:scale-105 transition-transform duration-300"
               >

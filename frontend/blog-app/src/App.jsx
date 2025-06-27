@@ -9,13 +9,13 @@ import Contact from '../src/pages/Contact'
 import Login from '../src/pages/Login'
 import Register from './pages/Register'
 import Dashboard from '../src/pages/Dashboard'
-import Creator from '../src/pages/Creator'
+import CreatorPage from '../src/pages/CreatorPage'
 import { useAuth } from './context/AuthProvider'
 import { Toaster } from 'react-hot-toast'
 
 function App() {
   const location = useLocation()
-  const hideNavbarFooter = ["/dashboard", "/login", "/register"].includes(location.pathname)
+  const hideNavbarFooter = ["/dashboard", "/register"].includes(location.pathname)
 
   const {blogs} = useAuth()
   console.log(blogs)
@@ -28,7 +28,7 @@ function App() {
         <Route exact path="/blogs" element={<Blogs />} />
         <Route exact path="/about" element={<About />} />
         <Route exact path="/contact" element={<Contact />} />
-        <Route exact path="/creators" element={<Creator />} />
+        <Route exact path="/creator-page" element={<CreatorPage />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/dashboard" element={<Dashboard />} />

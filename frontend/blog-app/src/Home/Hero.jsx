@@ -12,7 +12,7 @@ function Hero() {
         blogs.slice(0, 4).map((element) => {
           return (
             <Link
-              to={`/blog/${element._id}`}
+              to={`/blogs/single-blog/${element._id}`}
               key={element._id}
               className="bg-white rounded-lg hover:shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300"
             >
